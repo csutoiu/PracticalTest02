@@ -45,57 +45,33 @@ public class CommunicationThread extends Thread {
 
                     String data = bufferedReader.readLine();
 
-                   /* chat.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            chat.append("[CLIENT]: " + CLSays + "\n");
-                        }
-                    });*/
-
                     Log.i(Constants.TAG, "[COMMUNICATION THREAD] Client says: " + data);
 
-                    String[] params = data.split(",");
-                    String city = params[0];
-                    String option = params[1];
                     String resp = null;
                     
                     Log.i(Constants.TAG, "[COMMUNICATION THREAD] Getting the information from the webservice...");
                     HttpClient httpClient = new DefaultHttpClient();
-                    
-                    /*HttpPost httpPost = new HttpPost(Constants.WEATHER_SERVICE_INTERNET_ADDREESS);
-                    List<NameValuePair> parameter = new ArrayList<NameValuePair>();   
-                    parameter.add(new BasicNameValuePair(Constants.QUERY_ATTRIBUTE, city));
-                    UrlEncodedFormEntity urlEncodedFormEntity = new UrlEncodedFormEntity(parameter, HTTP.UTF_8);
-                    httpPost.setEntity(urlEncodedFormEntity);
-                    ResponseHandler<String> responseHandler = new BasicResponseHandler();
-                    String pageSourceCode = httpClient.execute(httpPost, responseHandler);
-                    Log.d(Constants.TAG, pageSourceCode);*/
-                    
-                    /*HttpGet httpGet = new HttpGet(Constants.WEATHER_SERVICE_INTERNET_ADDREESS
-							+ "?" + Constants.QUERY_ATTRIBUTE + "=" + city);
+
+                    HttpGet httpGet = new HttpGet(Constants.SERVICE_INTERNET_ADDREESS
+							+ "?" + Constants.QUERY_ATTRIBUTE + "=" + data);
 					ResponseHandler<String> responseHandlerGet = new BasicResponseHandler();
 					try {
 						resp = httpClient.execute(httpGet, responseHandlerGet);
 						if (resp != null) {
-							Document document = Jsoup.parse(resp);
-							Element element = document.child(0);
-				            Elements scripts = element.getElementsByTag(Constants.SCRIPT_TAG);
 							
-				            for (Element script: scripts) {
-				                String scriptData = script.data();
-				                if (scriptData.contains(Constants.SEARCH_KEY)) {
-				                	int position = scriptData.indexOf(Constants.SEARCH_KEY) + Constants.SEARCH_KEY.length();
-				                	scriptData = scriptData.substring(position);
-				                	JSONObject content = new JSONObject(scriptData);
-				                	JSONObject currentObservation = content.getJSONObject(Constants.CURRENT_OBSERVATION);
-				                	String temperature = currentObservation.getString(Constants.TEMPERATURE);
-				                	String windSpeed = currentObservation.getString(Constants.WIND_SPEED);
-				                	String condition = currentObservation.getString(Constants.CONDITION);
-				                	String pressure = currentObservation.getString(Constants.PRESSURE);
-				                	String humidity = currentObservation.getString(Constants.HUMIDITY);
-				                  
-				                }
-				            }
+							Log.d(Constants.TAG, resp);
+							
+							int index1 = resp.indexOf(Constants.WORD_TAG1);
+							int index2 = resp.indexOf(Constants.WORD_TAG2);
+							Log.d(Constants.TAG, "Fisrt index " + index1 + "Second index " + index2);
+							
+							String result = resp.substring(index1 + Constants.WORD_TAG1.length(), index2);
+							//Log.d(Constants.TAG, "RESULT IS " + result) ;
+							printWriter.println(result);
+			                printWriter.flush();
+							
+							
+							
 						}
 						
 					} catch (ClientProtocolException clientProtocolException) {
@@ -108,7 +84,7 @@ public class CommunicationThread extends Thread {
 						if (Constants.DEBUG) {
 							ioException.printStackTrace();
 						}
-					}*/
+					}
 
                     printWriter.println(resp);
                     printWriter.flush();

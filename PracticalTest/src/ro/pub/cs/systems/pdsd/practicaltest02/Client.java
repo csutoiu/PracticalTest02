@@ -13,18 +13,16 @@ public class Client extends Thread {
     private String   address;
     private int      port;
 
-    private String city;
-    private String option;
-    private TextView info;
+    private String word;
+    private TextView view;
 
     private Socket socket;
 
-    public Client(String address, int port, String city, String option, TextView info) {
+    public Client(String address, int port, String word, TextView view) {
         this.address = address;
         this.port = port;
-        this.city = city;
-        this.option = option;
-        this.info = info;
+        this.word = word;
+        this.view = view;
     }
 
     @Override
@@ -34,19 +32,26 @@ public class Client extends Thread {
             if (socket == null) {
                 Log.e(Constants.TAG, "[CLIENT] Could not create socket!");
             }
+            
+            view.post(new Runnable() {
+                @Override
+                public void run() {
+                    view.setText("");;
+                }
+            });
 
             BufferedReader bufferedReader = Utilities.getReader(socket);
             PrintWriter printWriter    = Utilities.getWriter(socket);
             if (bufferedReader != null && printWriter != null) {
-                printWriter.println(city + "," + option);
+                printWriter.println(word);
                 printWriter.flush();
                 String infoFromSV;
                 while ((infoFromSV = bufferedReader.readLine()) != null) {
                     final String SVSays = infoFromSV;
-                    info.post(new Runnable() {
+                    view.post(new Runnable() {
                         @Override
                         public void run() {
-                            info.append("[SERVER]: " + SVSays + "\n");
+                            view.append(SVSays);
                         }
                     });
                 }

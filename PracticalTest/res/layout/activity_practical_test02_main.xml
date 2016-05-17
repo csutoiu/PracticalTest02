@@ -82,14 +82,6 @@
         android:hint="Word"
         android:ems="10" />
 
-     <TextView
-         android:id="@+id/textView3"
-         android:layout_width="match_parent"
-         android:layout_height="wrap_content"
-         android:layout_alignLeft="@+id/editText4"
-         android:layout_centerVertical="true"
-         android:text="" />
-
      <Button
          android:id="@+id/button2"
          android:layout_width="wrap_content"
@@ -97,5 +89,13 @@
          android:layout_alignLeft="@+id/button1"
          android:layout_below="@+id/editText3"
          android:text="Get Defination" />
+
+     <TextView
+         android:id="@+id/textView3"
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:layout_alignRight="@+id/button2"
+         android:layout_below="@+id/button2"
+         android:layout_marginTop="16dp" />
 
 </RelativeLayout>
